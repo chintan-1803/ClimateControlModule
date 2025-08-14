@@ -1,4 +1,4 @@
-﻿namespace DTO
+﻿namespace DTO.WeatherObservation
 {
     public class WeatherObservation
     {
@@ -39,5 +39,21 @@
         public int wind_spd_kt { get; set; }
     }
 
+    public class WeatherObservationRequest
+    {
+        public int WmoNumber { get; set; }
+    }
+    public class WeatherObservationResponse
+    {
+        public int WmoNumber { get; set; }
+        public List<WeatherObservation> WeatherData { get; set; } = new List<WeatherObservation>(); 
+        public WeatherObservationResult Result { get; set; }
 
+    }
+
+    public enum WeatherObservationResult
+    { 
+        Success  = 1,
+        Error = 2
+    }
 }
