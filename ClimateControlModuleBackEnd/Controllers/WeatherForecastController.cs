@@ -1,3 +1,5 @@
+using Contracts.Managers;
+using DTO.WeatherObservation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClimateControlModuleBackEnd.Controllers
@@ -6,16 +8,19 @@ namespace ClimateControlModuleBackEnd.Controllers
     [Route("[controller]")]
     public class WeatherObservationController : ControllerBase
     {
-        [HttpPost(Name = "GetWeatherObservationDataByStation")]
-        public IEnumerable<WeatherForecast> GetWeatherObservationDataByStation()
+        private readonly IWeatherObservationManager _manager;
+        public WeatherObservationController(IWeatherObservationManager manager)
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            // Constructor logic if needed
+            this._manager = manager;
+        }
+
+        // This endpoint retrieves weather observation data by WMO number -- Just take post method for adding more parameters in future
+        [HttpPost(Name = "GetWeatherObservationDataByStation")]
+        public async Task<WeatherObservationResponse> GetWeatherObservationDataByStationAsync(WeatherObservationRequest objRequest)
+        {
+            var response =  await _manager.GetWeatherObservationDataByStationAsync(objRequest);
+            return response; 
         }
     }
 }

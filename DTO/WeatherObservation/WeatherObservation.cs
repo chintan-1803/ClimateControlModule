@@ -45,15 +45,14 @@
     }
     public class WeatherObservationResponse
     {
-        public int WmoNumber { get; set; }
         public List<WeatherObservation> WeatherData { get; set; } = new List<WeatherObservation>(); 
         public WeatherObservationResult Result { get; set; }
-
     }
 
     public enum WeatherObservationResult
     { 
         Success  = 1,
-        Error = 2
+        WmoNumberNotFound = 2,
+        Error = 3
     }
 }
