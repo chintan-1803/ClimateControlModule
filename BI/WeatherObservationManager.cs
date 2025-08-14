@@ -1,4 +1,5 @@
-﻿using Contracts.Managers;
+﻿using BI.Utilities;
+using Contracts.Managers;
 using DTO.WeatherObservation;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -25,36 +26,14 @@ namespace BI
             }
             else
             {
-                await NewMethod(objRequest);
+                Helper helper = new Helper();
+                HttpResponseMessage responseMessage = await helper.SendRequestToExternalApi(Method.Get, $"https://www.bom.gov.au/fwo/IDS60901/IDS60901.{objRequest.WmoNumber}.json");
 
-                response.Result = WeatherObservationResult.Success;
+                responseMessage.EnsureSuccessStatusCode();
 
+                string json = await responseMessage.Content.ReadAsStringAsync();
             }
-
-            await Task.Delay(1000); // Simulate async operation -- Need to replace with actual data retrieval logic
-
-
-
-
-
-
             return response;
-        }
-
-        private static async Task NewMethod(WeatherObservationRequest objRequest)
-        {
-            HttpClient _httpClient = new HttpClient();
-
-            _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) " + "AppleWebKit/537.36 (KHTML, like Gecko) " + "Chrome/115.0.0.0 Safari/537.36");
-
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            var url = $"https://www.bom.gov.au/fwo/IDS60901/IDS60901.{objRequest.WmoNumber}.json";
-
-            var responseMessage = await _httpClient.GetAsync(url);
-            responseMessage.EnsureSuccessStatusCode();
-
-            string json = await responseMessage.Content.ReadAsStringAsync();
         }
     }
 }
