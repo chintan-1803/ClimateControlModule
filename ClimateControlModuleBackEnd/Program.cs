@@ -1,8 +1,15 @@
 using ClimateControlModuleBackEnd.Middleware;
+using Microsoft.AspNetCore.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+
+//Chintan: Authentication middleware should be inserted first to have user's Identity which is required for Authorisation middleware 
+// Chintan: Can add services and middleware of Authentication in future if needed // Chintan: Can add services and middleware of Authorisation in future if needed
+// Chintan: Can add services of CORS in future if needed to make the API accessible from other origins and make it more secure
+// Chintan: Can add services of rate limiting too to control the number of requests 
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
