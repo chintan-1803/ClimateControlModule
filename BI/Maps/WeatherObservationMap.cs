@@ -10,12 +10,14 @@ namespace BI.Maps
 {
     public class WeatherObservationMap
     {
-        public List<WeatherObservation> GetMappedWeatherData(List<WeatherObservationReceivedFromApi> weatherObservationReceivedList)
+        public List<WeatherObservation> MapWeatherObservationsForLast72Hours(List<WeatherObservationReceivedFromApi> weatherObservationReceivedList)
         {
             if (weatherObservationReceivedList == null || !weatherObservationReceivedList.Any())
             {
                 return new List<WeatherObservation>();
             }
+
+            DateTime lastThreeDaysData = DateTime.Now.AddHours(-24);
 
             return weatherObservationReceivedList.Select(item => new WeatherObservation
             {
@@ -28,7 +30,10 @@ namespace BI.Maps
                 AirTemp = item.AirTemp,
                 DewPt = item.DewPt,
                 Pressure = item.Pressure
-            }).ToList();
+            }).Where(x=>x.LocalDateTimeFull >= lastThreeDaysData).ToList(); // Filter for last three days data
+
+
+
         }
     }
 }

@@ -46,7 +46,7 @@ namespace BI
                 var data = dataArray?.ToObject<List<WeatherObservationReceivedFromApi>>() ?? new List<WeatherObservationReceivedFromApi>();
 
                 // All logic to map the data from DTO to the response DTO in map file to keep the manager clean
-                response.WeatherData = _weatherObservationMap.GetMappedWeatherData(data);
+                response.WeatherData = _weatherObservationMap.MapWeatherObservationsForLast72Hours(data);
 
                 response.Result = WeatherObservationResult.Success;
             }
