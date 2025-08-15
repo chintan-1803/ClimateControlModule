@@ -38,7 +38,7 @@ try
 
         if(jsonWeatherObject.Result == WeatherObservationResult.Success)
         {
-
+            Console.WriteLine("Weather Data :");
         }
         else
         {
