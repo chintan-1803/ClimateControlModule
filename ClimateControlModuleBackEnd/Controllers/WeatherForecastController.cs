@@ -17,7 +17,7 @@ namespace ClimateControlModuleBackEnd.Controllers
 
         // This endpoint retrieves weather observation data by WMO number -- Just take post method for adding more parameters in future
         [HttpPost("GetWeatherObservationDataByStation")]
-        public async Task<WeatherObservationResponse> GetWeatherObservationDataByStationAsync(WeatherObservationRequest objRequest)
+        public async Task<WeatherObservationResponse> GetWeatherObservationDataByStationAsyncForLast72Hours(WeatherObservationRequest objRequest)
         {
             var response =  await _manager.GetWeatherObservationDataByStationAsync(objRequest);
             return response; 

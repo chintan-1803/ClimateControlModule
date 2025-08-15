@@ -18,7 +18,7 @@ namespace BI
             _helper = helper;
             _weatherObservationMap = new WeatherObservationMap();
         }
-        public async Task<WeatherObservationResponse> GetWeatherObservationDataByStationAsync(WeatherObservationRequest objRequest)
+        public async Task<WeatherObservationResponse> GetWeatherObservationDataByStationAsyncForLast72Hours(WeatherObservationRequest objRequest)
         {
             var response = new WeatherObservationResponse
             {
