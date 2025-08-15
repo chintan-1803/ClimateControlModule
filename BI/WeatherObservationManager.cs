@@ -1,4 +1,5 @@
-﻿using BI.Utilities;
+﻿using BI.Maps;
+using BI.Utilities;
 using Contracts.Managers;
 using DTO.WeatherObservation;
 using Newtonsoft.Json.Linq;
@@ -8,9 +9,11 @@ namespace BI
     public class WeatherObservationManager : IWeatherObservationManager
     {
         private readonly IHelper _helper;
+        private readonly WeatherObservationMap _weatherObservationMap = null;
         public WeatherObservationManager(IHelper helper)
         {
             _helper = helper;
+            _weatherObservationMap = new WeatherObservationMap();
         }
         public async Task<WeatherObservationResponse> GetWeatherObservationDataByStationAsync(WeatherObservationRequest objRequest)
         {
@@ -38,7 +41,8 @@ namespace BI
 
                 var data = dataArray?.ToObject<List<WeatherObservationReceivedFromApi>>() ?? new List<WeatherObservationReceivedFromApi>();
 
-                //response.WeatherData = dataArray?.ToObject<List<WeatherObservationReceivedFromApi>>() ?? new List<WeatherObservationReceivedFromApi>();
+                // All logic to map the data from DTO to the response DTO in map file to keep the manager clean
+                response.WeatherData = _weatherObservationMap.GetMappedWeatherData(data);
 
                 response.Result = WeatherObservationResult.Success;
             }
