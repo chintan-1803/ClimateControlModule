@@ -36,11 +36,14 @@ try
 
         WeatherObservationResponse jsonWeatherObject = jObject.ToObject<WeatherObservationResponse>() ?? new WeatherObservationResponse();
 
-        //var dataArray = jsonWeatherObject["observations"]?["data"] as JArray;
+        if(jsonWeatherObject.Result == WeatherObservationResult.Success)
+        {
 
-        //var data = dataArray?.ToObject<List<WeatherObservationReceivedFromApi>>() ?? new List<WeatherObservationReceivedFromApi>();
+        }
+        else
+        {
 
-        //Console.WriteLine($"Station: {weatherResponse?.StationName}, Temperature: {weatherResponse?.Temperature}");
+        }
     }
     else
     {
