@@ -86,8 +86,6 @@ static async Task GetWeatherObservationDataByStationAsyncForLastNHours(string ap
     {
         var responseJson = await response.Content.ReadAsStringAsync();
 
-        //var weatherResponse = JsonSerializer.Deserialize<WeatherObservationResponse>(responseJson);
-
         JObject jObject = JObject.Parse(responseJson);
 
         WeatherObservationResponse jsonWeatherObject = jObject.ToObject<WeatherObservationResponse>() ?? new WeatherObservationResponse();
@@ -97,9 +95,13 @@ static async Task GetWeatherObservationDataByStationAsyncForLastNHours(string ap
             double avgTemperature = Math.Round((double) jsonWeatherObject.WeatherData.Sum(x => x.AirTemp) / jsonWeatherObject.WeatherData.Count(),1);
             Console.WriteLine("Station Name: " + selectedStation.Name + " Wmo Number: " + selectedStation.Wmo.ToString() + " Average Temperature: " + avgTemperature.ToString() + "\n");
         }
-        else
+        else if (jsonWeatherObject.Result == WeatherObservationResult.WmoNumberNotFound)
         {
-
+            Console.WriteLine("WMO number not found. Please try again.");
+        }
+        else if (jsonWeatherObject.Result == WeatherObservationResult.Error)
+        {
+            Console.WriteLine("An error occurred while processing your request. Please try again.");
         }
     }
     else
