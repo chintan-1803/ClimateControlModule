@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net.Http.Headers;
 
 namespace BI.Utilities
 {
-    public class Helper
+    public class Helper : IHelper
     {
         public async Task<HttpResponseMessage> SendRequestToExternalApi(Method method, string requestUrl)
         {

@@ -8,9 +8,10 @@ namespace BI
 {
     public class WeatherObservationManager : IWeatherObservationManager
     {
-        public WeatherObservationManager()
+        private readonly IHelper _helper;
+        public WeatherObservationManager(IHelper helper)
         {
-
+            _helper = helper;
         }
         public async Task<WeatherObservationResponse> GetWeatherObservationDataByStationAsync(WeatherObservationRequest objRequest)
         {
@@ -26,8 +27,7 @@ namespace BI
             }
             else
             {
-                Helper helper = new Helper();
-                HttpResponseMessage responseMessage = await helper.SendRequestToExternalApi(Method.Get, $"https://www.bom.gov.au/fwo/IDS60901/IDS60901.{objRequest.WmoNumber}.json");
+                HttpResponseMessage responseMessage = await _helper.SendRequestToExternalApi(Method.Get, $"https://www.bom.gov.au/fwo/IDS60901/IDS60901.{objRequest.WmoNumber}.json");
 
                 responseMessage.EnsureSuccessStatusCode();
 

@@ -1,4 +1,5 @@
 ﻿using BI;
+using BI.Utilities;
 using Contracts.Managers;
 
 namespace ClimateControlModuleBackEnd.AppStart
@@ -15,7 +16,9 @@ namespace ClimateControlModuleBackEnd.AppStart
         public static void ConfigureManagers(IServiceCollection services)
         {
             // Register the WeatherObservationManager as the implementation of IWeatherObservationManager
-            services.AddScoped<Contracts.Managers.IWeatherObservationManager, BI.WeatherObservationManager>();
+            services.AddScoped<IWeatherObservationManager, WeatherObservationManager>();
+
+            services.AddScoped<IHelper, Helper>();
 
         }
     }
