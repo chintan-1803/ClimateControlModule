@@ -1,9 +1,10 @@
-﻿using System.Text.Json;
-using DTO.WeatherObservation;
+﻿using DTO.WeatherObservation;
+using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 Console.WriteLine("Hello, World!");
 
-var apiURL = "http://localhost/WeatherObservation/GetWeatherObservationDataByStation";
+var apiURL = "http://localhost/WeatherObservation/GetWeatherObservationDataByStationAsyncForLast72Hours";
 
 
 var requestObj = new WeatherObservationRequest
@@ -28,7 +29,16 @@ try
     if (response.IsSuccessStatusCode)
     {
         var responseJson = await response.Content.ReadAsStringAsync();
-        var weatherResponse = JsonSerializer.Deserialize<WeatherObservationResponse>(responseJson);
+
+        //var weatherResponse = JsonSerializer.Deserialize<WeatherObservationResponse>(responseJson);
+
+        JObject jObject = JObject.Parse(responseJson);
+
+        WeatherObservationResponse jsonWeatherObject = jObject.ToObject<WeatherObservationResponse>() ?? new WeatherObservationResponse();
+
+        //var dataArray = jsonWeatherObject["observations"]?["data"] as JArray;
+
+        //var data = dataArray?.ToObject<List<WeatherObservationReceivedFromApi>>() ?? new List<WeatherObservationReceivedFromApi>();
 
         //Console.WriteLine($"Station: {weatherResponse?.StationName}, Temperature: {weatherResponse?.Temperature}");
     }
