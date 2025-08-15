@@ -1,4 +1,5 @@
-﻿using DTO.WeatherObservation;
+﻿using DTO.Common;
+using DTO.WeatherObservation;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,14 +11,14 @@ namespace BI.Maps
 {
     public class WeatherObservationMap
     {
-        public List<WeatherObservation> MapWeatherObservationsForLast72Hours(List<WeatherObservationReceivedFromApi> weatherObservationReceivedList)
+        public List<WeatherObservation> MapWeatherObservationsForLastNHours(List<WeatherObservationReceivedFromApi> weatherObservationReceivedList)
         {
             if (weatherObservationReceivedList == null || !weatherObservationReceivedList.Any())
             {
                 return new List<WeatherObservation>();
             }
 
-            DateTime lastThreeDaysData = DateTime.Now.AddHours(-24);
+            DateTime lastThreeDaysData = DateTime.Now.AddHours(ApiCommonData.DefaultHoursToFetch * -1);
 
             return weatherObservationReceivedList.Select(item => new WeatherObservation
             {

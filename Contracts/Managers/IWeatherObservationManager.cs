@@ -10,6 +10,6 @@ namespace Contracts.Managers
         /// </summary>
         /// <param name="wmoNumber">The WMO number of the weather station.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the weather observation response.</returns>
-        Task<WeatherObservationResponse> GetWeatherObservationDataByStationAsyncForLast72Hours(WeatherObservationRequest objRequest);
+        Task<WeatherObservationResponse> GetWeatherObservationDataByStationAsyncForLastNHours(WeatherObservationRequest objRequest);
     }
 }

@@ -18,7 +18,7 @@ namespace BI
             _helper = helper;
             _weatherObservationMap = new WeatherObservationMap();
         }
-        public async Task<WeatherObservationResponse> GetWeatherObservationDataByStationAsyncForLast72Hours(WeatherObservationRequest objRequest)
+        public async Task<WeatherObservationResponse> GetWeatherObservationDataByStationAsyncForLastNHours(WeatherObservationRequest objRequest)
         {
             var response = new WeatherObservationResponse
             {
@@ -46,7 +46,7 @@ namespace BI
                 var data = dataArray?.ToObject<List<WeatherObservationReceivedFromApi>>() ?? new List<WeatherObservationReceivedFromApi>();
 
                 // All logic to map the data from DTO to the response DTO in map file to keep the manager clean
-                response.WeatherData = _weatherObservationMap.MapWeatherObservationsForLast72Hours(data);
+                response.WeatherData = _weatherObservationMap.MapWeatherObservationsForLastNHours(data);
 
                 response.Result = WeatherObservationResult.Success;
             }

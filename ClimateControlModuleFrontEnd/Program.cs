@@ -9,7 +9,7 @@ var apiURL = "http://localhost/WeatherObservation/GetWeatherObservationDataBySta
 
 var requestObj = new WeatherObservationRequest
 {
-    WmoNumber = 94672 
+    WmoNumber = 94672
 };
 
 
@@ -47,7 +47,7 @@ try
     }
     else
     {
-        //Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+        Console.WriteLine("Something went wrong. Please try again.");
     }
 
 
