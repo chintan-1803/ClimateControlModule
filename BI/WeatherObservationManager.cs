@@ -1,8 +1,7 @@
 ﻿using BI.Utilities;
 using Contracts.Managers;
 using DTO.WeatherObservation;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using Newtonsoft.Json.Linq;
 
 namespace BI
 {
@@ -31,7 +30,15 @@ namespace BI
 
                 responseMessage.EnsureSuccessStatusCode();
 
-                string json = await responseMessage.Content.ReadAsStringAsync();
+                string jsonWeatherData = await responseMessage.Content.ReadAsStringAsync();
+
+                var jsonWeatherObject =  JObject.Parse(jsonWeatherData);
+
+                var dataArray = jsonWeatherObject["observations"]?["data"] as JArray;
+
+                response.WeatherData = dataArray?.ToObject<List<WeatherObservation>>() ?? new List<WeatherObservation>();
+
+                response.Result = WeatherObservationResult.Success;
             }
             return response;
         }
