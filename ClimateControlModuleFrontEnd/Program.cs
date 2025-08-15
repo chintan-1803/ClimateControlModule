@@ -17,7 +17,7 @@ Dictionary<int, (string Name, int Wmo)> Stations = new Dictionary<int, (string, 
 
     const int DefaultChoice = 1;
 
-    Console.WriteLine("Showing default station data:\n");
+    Console.WriteLine("Showing Default Station Data:\n");
 
     await GetWeatherObservationDataByStationAsyncForLastNHours(apiURL, Stations, DefaultChoice);
 
@@ -26,15 +26,19 @@ Dictionary<int, (string Name, int Wmo)> Stations = new Dictionary<int, (string, 
     while (!exit)
     {
         
-        Console.WriteLine("Select a weather observation station:");
+        Console.WriteLine("Select a weather observation station:\n");
         foreach (var station in Stations)
         {
             Console.WriteLine($"{station.Key}. {station.Value.Name}");
         }
 
-        Console.WriteLine("\n Enter a number between 1 and 4");
+        Console.WriteLine("\n");
+
+        Console.WriteLine("Enter a number between 1 and 4");
         Console.WriteLine("If you enter an invalid number, the system will display data for Adelaide Airport.\r\nPress 0 to exit.");
         string input = Console.ReadLine();
+
+        Console.WriteLine("\n");
 
         if (input == "0")
         {
