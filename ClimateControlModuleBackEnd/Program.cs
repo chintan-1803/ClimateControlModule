@@ -1,19 +1,10 @@
-using BI;
+using BI.Settings;
 using ClimateControlModuleBackEnd.AppStart;
 using ClimateControlModuleBackEnd.Middleware;
-using Contracts.Managers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-//builder.Services.AddHttpClient<IWeatherObservationManager, WeatherObservationManager>(client =>
-//{
-//    client.BaseAddress = new Uri("https://www.bom.gov.au/"); // Always HTTPS
-//    client.DefaultRequestHeaders.UserAgent.ParseAdd(
-//        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-//        "(KHTML, like Gecko) Chrome/115.0 Safari/537.36");
-//});
+builder.Services.Configure<BOMApiSettings>(builder.Configuration.GetSection("BOMApiSettings"));
 
 // Chintan: Separate class to configure application services to keep Program.cs clean and maintainable
 ApplicationServicesConfiguration.ConfigureManagers(builder.Services);

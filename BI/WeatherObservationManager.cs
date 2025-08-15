@@ -1,17 +1,20 @@
 ﻿using BI.Maps;
+using BI.Settings;
 using BI.Utilities;
 using Contracts.Managers;
 using DTO.WeatherObservation;
 using Newtonsoft.Json.Linq;
-
+using Microsoft.Extensions.Options;
 namespace BI
 {
     public class WeatherObservationManager : IWeatherObservationManager
     {
         private readonly IHelper _helper;
-        private readonly WeatherObservationMap _weatherObservationMap = null;
-        public WeatherObservationManager(IHelper helper)
+        private readonly WeatherObservationMap _weatherObservationMap;
+        private readonly BOMApiSettings _bomApiSettings;
+        public WeatherObservationManager(IHelper helper,IOptions<BOMApiSettings> options)
         {
+            _bomApiSettings = options.Value;
             _helper = helper;
             _weatherObservationMap = new WeatherObservationMap();
         }
@@ -29,7 +32,8 @@ namespace BI
             }
             else
             {
-                HttpResponseMessage responseMessage = await _helper.SendRequestToExternalApi(Method.Get, $"https://www.bom.gov.au/fwo/IDS60901/IDS60901.{objRequest.WmoNumber}.json");
+                string url  = string.Format(_bomApiSettings.Url, objRequest.WmoNumber);
+                HttpResponseMessage responseMessage = await _helper.SendRequestToExternalApi(Method.Get, url);
 
                 responseMessage.EnsureSuccessStatusCode();
 
