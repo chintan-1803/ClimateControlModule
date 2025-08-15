@@ -4,7 +4,7 @@ using System.Text.Json;
 
 Console.WriteLine("Hello, World!");
 
-var apiURL = "http://localhost/WeatherObservation/GetWeatherObservationDataByStationAsyncForLast72Hours";
+var apiURL = "http://localhost/WeatherObservation/GetWeatherObservationDataByStationAsyncForLastNHours";
 
 
 var requestObj = new WeatherObservationRequest
