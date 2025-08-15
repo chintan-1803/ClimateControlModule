@@ -36,7 +36,9 @@ namespace BI
 
                 var dataArray = jsonWeatherObject["observations"]?["data"] as JArray;
 
-                response.WeatherData = dataArray?.ToObject<List<WeatherObservation>>() ?? new List<WeatherObservation>();
+                var data = dataArray?.ToObject<List<WeatherObservationReceivedFromApi>>() ?? new List<WeatherObservationReceivedFromApi>();
+
+                //response.WeatherData = dataArray?.ToObject<List<WeatherObservationReceivedFromApi>>() ?? new List<WeatherObservationReceivedFromApi>();
 
                 response.Result = WeatherObservationResult.Success;
             }
