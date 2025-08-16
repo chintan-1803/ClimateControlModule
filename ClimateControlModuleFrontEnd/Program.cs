@@ -1,19 +1,26 @@
 ﻿using DTO.WeatherObservation;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 using System.Text.Json;
 
-var apiURL = "http://localhost/WeatherObservation/GetWeatherObservationDataByStationAsyncForLastNHours";
-
 try
 {
+    var serviceCollection = new ServiceCollection();
 
-Dictionary<int, (string Name, int Wmo)> Stations = new Dictionary<int, (string, int)>
-{
-    { 1, ("Adelaide Airport", 94672) },
-    { 2, ("Edinburgh", 95676) },
-    { 3, ("Hindmarsh Island", 94677) },
-    { 4, ("Kuitpo", 94683) }
-};
+    var configuration = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .Build();
+
+    var apiURL = configuration["WeatherApiSettings:ClimateControlModuleApiUrl"];
+
+    Dictionary<int, (string Name, int Wmo)> Stations = new Dictionary<int, (string, int)>
+    {
+        { 1, ("Adelaide Airport", 94672) },
+        { 2, ("Edinburgh", 95676) },
+        { 3, ("Hindmarsh Island", 94677) },
+        { 4, ("Kuitpo", 94683) }
+    };
 
     const int DefaultChoice = 1;
 
@@ -25,7 +32,7 @@ Dictionary<int, (string Name, int Wmo)> Stations = new Dictionary<int, (string, 
 
     while (!exit)
     {
-        
+
         Console.WriteLine("Select a weather observation station:\n");
         foreach (var station in Stations)
         {
@@ -92,7 +99,7 @@ static async Task GetWeatherObservationDataByStationAsyncForLastNHours(string ap
 
         if (jsonWeatherObject.Result == WeatherObservationResult.Success)
         {
-            double avgTemperature = Math.Round((double) jsonWeatherObject.WeatherData.Sum(x => x.AirTemp) / jsonWeatherObject.WeatherData.Count(),1);
+            double avgTemperature = Math.Round((double)jsonWeatherObject.WeatherData.Sum(x => x.AirTemp) / jsonWeatherObject.WeatherData.Count(), 1);
             Console.WriteLine("Station Name: " + selectedStation.Name + " Wmo Number: " + selectedStation.Wmo.ToString() + " Average Temperature: " + avgTemperature.ToString() + "\n");
         }
         else if (jsonWeatherObject.Result == WeatherObservationResult.WmoNumberNotFound)
