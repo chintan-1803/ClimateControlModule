@@ -4,9 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 using System.Text.Json;
 
-
-// dotnet publish -c Release -r win-x64 -p:PublishSingleFile = true--self - contained true -- Command to  Slef contained exec
-
 try
 {
     var serviceCollection = new ServiceCollection();
