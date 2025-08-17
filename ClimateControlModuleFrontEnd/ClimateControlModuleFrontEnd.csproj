@@ -13,6 +13,11 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	<PackageReference Include="Microsoft.Extensions.Options" Version="9.0.8" />
+	  <!--This ensures appsettings.json is copied alongside the EXE when published.-->
+	  <None Update="appsettings.json">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</None>
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,10 @@
-﻿using DTO.WeatherObservation;
+﻿// Publishing Command to have a single file executable for Windows x64 platform -- no rumtime dependencies 
+//dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile = true / p:IncludeAllContentForSelfExtract = true
+
+
+
+
+using DTO.WeatherObservation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
