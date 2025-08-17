@@ -4,6 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 using System.Text.Json;
 
+
+// dotnet publish -c Release -r win-x64 -p:PublishSingleFile = true--self - contained true -- Command to  Slef contained exec
+
 try
 {
     var serviceCollection = new ServiceCollection();
@@ -12,7 +15,7 @@ try
         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
         .Build();
 
-    var apiURL = configuration["WeatherApiSettings:ClimateControlModuleApiUrl1"];
+    var apiURL = configuration["WeatherApiSettings:ClimateControlModuleApiUrl"];
 
     if (apiURL != null)
     {
@@ -44,7 +47,7 @@ try
             Console.WriteLine("\n");
 
             Console.WriteLine("Enter a number between 1 and 4");
-            Console.WriteLine("If you enter an invalid number, the system will display data for Adelaide Airport.\r\nPress 0 to exit.");
+            Console.WriteLine("If you enter an invalid number, the system will display data for default Adelaide Airport.\r\nPress 0 to exit.");
             string input = Console.ReadLine();
 
             Console.WriteLine("\n");
@@ -64,8 +67,9 @@ try
             }
 
             await GetWeatherObservationDataByStationAsyncForLastNHours(apiURL, Stations, choice);
-
         }
+
+
     }
     else
     {
@@ -104,18 +108,28 @@ static async Task GetWeatherObservationDataByStationAsyncForLastNHours(string ap
 
         WeatherObservationResponse jsonWeatherObject = jObject.ToObject<WeatherObservationResponse>() ?? new WeatherObservationResponse();
 
-        if (jsonWeatherObject.Result == WeatherObservationResult.Success)
+        switch (jsonWeatherObject.Result)
         {
-            double avgTemperature = Math.Round((double)jsonWeatherObject.WeatherData.Sum(x => x.AirTemp) / jsonWeatherObject.WeatherData.Count(), 1);
-            Console.WriteLine("Station Name: " + selectedStation.Name + " Wmo Number: " + selectedStation.Wmo.ToString() + " Average Temperature: " + avgTemperature.ToString() + "\n");
-        }
-        else if (jsonWeatherObject.Result == WeatherObservationResult.WmoNumberNotFound)
-        {
-            Console.WriteLine("WMO number not found. Please try again.");
-        }
-        else if (jsonWeatherObject.Result == WeatherObservationResult.Error)
-        {
-            Console.WriteLine("An error occurred while processing your request. Please try again.");
+            case WeatherObservationResult.Success:
+                double avgTemperature = Math.Round((double)jsonWeatherObject.WeatherData.Sum(x => x.AirTemp) / jsonWeatherObject.WeatherData.Count(), 1);
+                Console.WriteLine("Station Name: " + selectedStation.Name + " Wmo Number: " + selectedStation.Wmo.ToString() + " Average Temperature: " + avgTemperature.ToString() + "\n");
+
+                Console.Write("Do you want to see the full JSON data? (y/n): ");
+                var input = Console.ReadLine()?.Trim().ToLower();
+
+                if (input == "y" || input == "yes")
+                {
+                    Console.WriteLine("\nFull JSON Data:\n");
+                    Console.WriteLine(JsonSerializer.Serialize(jsonWeatherObject.WeatherData));
+                    Console.WriteLine(); // extra line for spacing
+                }
+                break;
+            case WeatherObservationResult.WmoNumberNotFound:
+                Console.WriteLine("WMO number not found. Please try again.");
+                break;
+            case WeatherObservationResult.Error:
+                Console.WriteLine("An error occurred while processing your request. Please try again.");
+                break;
         }
     }
     else
