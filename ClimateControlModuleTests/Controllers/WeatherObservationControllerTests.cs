@@ -32,12 +32,12 @@ namespace ClimateControlModuleTests.Controllers
             _mockManager
                 .Setup(m => m.GetWeatherObservationDataByStationAsyncForLastNHours(request))
                 .ReturnsAsync(expectedResponse);
+
             // Act
             var result = await _controller.GetWeatherObservationDataByStationAsyncForLastNHours(request);
             // Assert
             Assert.Equal(expectedResponse, result);
 
-           // _mockManager.Verify(m => m.GetWeatherObservationDataByStationAsyncForLastNHours(request), Times.Once);
         }
     }
 }
