@@ -1,4 +1,4 @@
-﻿using Xunit;
+﻿
 using Moq;
 using Contracts.Managers;
 using ClimateControlModuleBackEnd.Controllers;
@@ -35,6 +35,7 @@ namespace ClimateControlModuleTests.Controllers
 
             // Act
             var result = await _controller.GetWeatherObservationDataByStationAsyncForLastNHours(request);
+
             // Assert
             Assert.Equal(expectedResponse, result);
 
