@@ -79,5 +79,24 @@ namespace ClimateControlModuleTests.Services
             // Assert
             Assert.Equal(DTO.WeatherObservation.WeatherObservationResult.Success, result.Result);
         }
+
+        [Fact]
+        public async Task GetWeatherObservationDataByStationAsyncForLastNHours_ShouldReturn_Error_WhenApiThrowsException()
+        {
+            // Arrange
+            var request = new DTO.WeatherObservation.WeatherObservationRequest
+            {
+                WmoNumber = 94672 // Valid WmoNumber
+            };
+         
+            _mockHelper
+                .Setup(h => h.SendRequestToExternalApi(Method.Get, It.IsAny<string>()))
+                .ThrowsAsync(new Exception("API Error"));
+            // Act
+            var result = await _manager.GetWeatherObservationDataByStationAsyncForLastNHours(request);
+            // Assert
+            Assert.Equal(DTO.WeatherObservation.WeatherObservationResult.Error, result.Result);
+        }
+
     }
 }
